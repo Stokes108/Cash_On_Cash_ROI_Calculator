@@ -116,6 +116,33 @@ class Rental_Property(Mortagage):
         
         return rental
 
+    @staticmethod
+    def verify_digit_input(value):
+        value_flag = True
+        while value_flag:
+            if value.isdigit():
+                value_flag = False
+            else:
+                value = input("You did not enter a digit please enter a number: ")
+        return int(value)
+
+    @staticmethod
+    def verify_bool(value):
+        value_flag = True
+        while value_flag:
+            if value in 'yn':
+                value_flag = False
+            else:
+                value = input("You did not enter y or n. Please choose again: ")
+        return True if value == 'y' else False
+
+    @staticmethod
+    def verify_quit(value):
+        if value.lower().strip() == 'quit':
+            return False
+        else:
+            return True
+
 
 def find_input():
     user_flag = True
@@ -136,14 +163,14 @@ def find_input():
                 if x != 'utility':
 
                     input_value = input(f'Please enter your {x}: ')
-                    user_flag = verify_quit(input_value)
+                    user_flag = Rental_Property.verify_quit(input_value)
                     if input_value != 'quit':
-                        input_value = verify_digit_input(input_value)
+                        input_value = Rental_Property.verify_digit_input(input_value)
                         input_dict[x] = input_value
 
                 else:
                     input_value = input("Will your renters pay the utilities (y/n): ")
-                    input_value = verify_bool(input_value)
+                    input_value = Rental_Property.verify_bool(input_value)
                     input_dict[x] = input_value
 
             
@@ -151,35 +178,12 @@ def find_input():
         if user_flag:
             current_rental = Rental_Property.create_object(input_dict)
             print(f'This is your calculated cash on cash ROI for the current property: {current_rental.cash_ROI()}')
-            user_flag = verify_bool(input('Would you like to calculate another ROI? (y/n): '))
+            user_flag = Rental_Property.verify_bool(input('Would you like to calculate another ROI? (y/n): '))
 
     if not user_flag:
         print('\nThank you for assessing with us! It was a pleasure I hope you make lots of money soon\n')
 
 
-def verify_digit_input(value):
-    value_flag = True
-    while value_flag:
-        if value.isdigit():
-            value_flag = False
-        else:
-            value = input("You did not enter a digit please enter a number: ")
-    return int(value)
-
-def verify_bool(value):
-    value_flag = True
-    while value_flag:
-        if value in 'yn':
-            value_flag = False
-        else:
-            value = input("You did not enter y or n. Please choose again: ")
-    return True if value == 'y' else False
-
-def verify_quit(value):
-    if value.lower().strip() == 'quit':
-        return False
-    else:
-        return True
 
 
 
